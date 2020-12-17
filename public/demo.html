@@ -1,0 +1,79 @@
+<!-- Load TensorFlow.js. This is required to use MobileNet. -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7"></script>
+<!-- Load the MobileNet model. -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@0.1.1"></script>
+<head>
+    <link rel="stylesheet" href="demo.css">
+</head>
+
+<!-- Place your code in the script tag below. You can also use an external .js file -->
+<body>
+<div style="width: 100%">
+    <div style="width: 100%">
+        <div style="text-align: center;padding: 20px; color: rebeccapurple; font-size: 20px">
+            🎉 🎉 🎉 Innovation Days 2020 🎉 🎉 🎉
+        </div>
+    </div>
+    <div style="margin: 0 auto; display: flex; max-width: 800px">
+        <div style="">
+            <div style="padding: 50px 0px 20px 0px; font-size: 30px">
+                Warehouse Article Detector
+            </div>
+            <div style="width: 100%;">
+                <input style="margin-bottom: 20px; height: 50px;border-radius: 8px;border: 1px solid;background-color: white;"
+                       type="button" onclick="document.getElementById('fileInput').click()" value="Select File"/>
+            </div>
+            <div><img id="img" src="images/pineapple1.jpg" style="max-width: 400px;"></div>
+            <input type="file" id="fileInput" multiple onchange="showname()" style="display: none"/>
+
+        </div>
+        <div style="padding-left: 80px; margin: auto 0; padding-top: 20px">
+            <div id="spinner" class="spinner"></div>
+            <div id="pred1" class="text" style="text-align: left; padding-top: 50px; font-size: 25px; font-weight: bold"></div>
+            <div id="pred2" class="text" style="text-align: left; padding-top: 30px;font-size: 25px;"></div>
+            <div id="pred3" class="text" style="text-align: left; padding-top: 30px;font-size: 25px;"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Notice there is no 'import' statement. 'mobilenet' and 'tf' is
+    // available on the index-page because of the script tag above.
+
+    const img = document.getElementById('img');
+    document.getElementById('spinner').innerHTML = "";
+
+    function getPrediction() {
+        // Load the model.
+        document.getElementById('spinner').innerHTML = '<div class="bounce1"></div>\n' +
+            '<div class="bounce2"></div>\n' +
+            '<div class="bounce3"></div>';
+        document.getElementById("pred1").innerHTML = '';
+        document.getElementById("pred2").innerHTML = '';
+        document.getElementById("pred3").innerHTML = '';
+        mobilenet.load().then(model => {
+            // Classify the image.
+            model.classify(img).then(predictions => {
+                console.log('Predictions: ');
+                console.log(predictions);
+                document.getElementById('spinner').innerHTML = "";
+                document.getElementById("pred1").innerHTML = "🤩 " + (predictions[0].probability * 100).toFixed(2) + "% " + predictions[0].className.toUpperCase();
+                document.getElementById("pred2").innerHTML = "🙂 " + (predictions[1].probability * 100).toFixed(2) + "% " + predictions[1].className.toUpperCase();
+                document.getElementById("pred3").innerHTML = "🤯 " + (predictions[2].probability * 100).toFixed(2) + "% " + predictions[2].className.toUpperCase();
+            });
+        });
+    }
+
+    function showname() {
+        var name = document.getElementById('fileInput');
+        img.src = "images/" + name.files.item(0).name;
+        getPrediction();
+
+    };
+
+    getPrediction();
+
+</script>
+
+</body>
