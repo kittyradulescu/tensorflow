@@ -2,6 +2,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7"></script>
 <!-- Load the MobileNet model. -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@0.1.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis"></script>
+
 <head>
     <link rel="stylesheet" href="demo.css">
 </head>
@@ -16,7 +18,7 @@
     </div>
     <div style="margin: 0 auto; display: flex; max-width: 800px">
         <div style="">
-            <div style="padding: 50px 0px 20px 0px; font-size: 30px">
+            <div style="padding: 50px 0px 20px 0px; font-size: 24px">
                 Warehouse Article Detector
             </div>
             <div style="width: 100%;">
@@ -62,6 +64,7 @@
                 document.getElementById("pred2").innerHTML = "🙂 " + (predictions[1].probability * 100).toFixed(2) + "% " + predictions[1].className.toUpperCase();
                 document.getElementById("pred3").innerHTML = "🤯 " + (predictions[2].probability * 100).toFixed(2) + "% " + predictions[2].className.toUpperCase();
             });
+            //tfvis.show.modelSummary({ name: `Model Summary`, tab: `Model` }, model.model);
         });
     }
 
